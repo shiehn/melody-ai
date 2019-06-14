@@ -1,22 +1,9 @@
-############################
-# Build container
-############################
-#FROM node:10-alpine AS dep
-
-#WORKDIR /ops
-
-#RUN apk add python make
-#ADD package.json .
-#RUN npm install
-
-#ADD . .
-
-############################
-# Final container
-############################
 FROM stevehiehn/chord-melody-generator:latest
 
 WORKDIR /ops
+
+ENV MODEL_PATH /chords-to-melody-generator/
+ENV MIDI_OUTPUT /tmp
 
 ADD . .
 
@@ -25,11 +12,12 @@ RUN apt-get update -yq \
     && curl -sL https://deb.nodesource.com/setup_8.x | bash \
     && apt-get install nodejs -yq
 
-#ADD . .
+WORKDIR /chords-to-melody-generator
+
+RUN git checkout . && git pull && mvn package
+
+WORKDIR /ops
 
 ADD package.json .
 RUN npm install
 
-#ADD . .
-
-#COPY --from=dep /ops .
