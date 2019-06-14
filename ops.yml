@@ -1,0 +1,29 @@
+version: "1"
+name: melody-ai
+description: OP to generate melodies given a chord sequence
+run: node /ops/index.js
+network: host
+flags:
+  - v=0.0.0
+env:
+  - USER=world
+  - LOGGER_PLUGINS_STDOUT_ENABLED=true
+  - OPS_ACCESS_TOKEN
+src:
+  - Dockerfile
+  - index.js
+  - demo.js
+  - package.json
+  - .dockerignore
+mountCwd: false
+mountHome: false
+bind:
+  - /tmp:/tmp
+help:
+  usage: Your first hello-world op
+  arguments:
+    username: Your username
+    email: Your email
+  options:
+    build: Build flag
+    clear: Clears
